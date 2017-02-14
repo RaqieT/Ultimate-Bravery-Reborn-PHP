@@ -77,14 +77,14 @@
 		$randMast=[];
 		array_push($randMast,rand(0,18));
 		
-		if(30-$randMast[0] > 18)
-			array_push($randMast, 18);
-		else
-			array_push($randMast,30-$randMast[0]);
-		if(30-($randMast[1]+$randMast[0]) > 18)
-			array_push($randMast, 18);
-		else
-			array_push($randMast,30-($randMast[1]+$randMast[0]));
+		$mastSize1=rand(0,30-$randMast[0]);
+		
+		if($mastSize1 > 18)
+			$mastSize1=18;
+		
+		array_push($randMast, rand(0, $mastSize1));
+		
+		array_push($randMast,30-($randMast[1]+$randMast[0]));
 		
 		shuffle($randMast);
 		echo '<div class=invisible>
