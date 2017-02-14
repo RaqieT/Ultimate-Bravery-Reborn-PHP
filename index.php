@@ -91,8 +91,9 @@
 				<table class=masteries><tr><td colspan=3>Masteries</td></tr>
 				<tr>';
 				$colorMast["Red"] = $randMast[0];
-				$colorMast["Green"] = $randMast[1];
-				$colorMast["Blue"] = $randMast[2];
+				$colorMast["Blue"] = $randMast[1];
+				$colorMast["Green"] = $randMast[2];
+				
 		
 				foreach($colorMast as $key => $value)
 				{
