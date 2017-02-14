@@ -47,7 +47,7 @@
 		$champId = $championsList['champions'][$picked]['id'];
 		$championInfo = json_decode(file_get_contents("https://global.api.pvp.net/api/lol/static-data/euw/v1.2/champion/$champId?champData=image&api_key=8b6d388b-22a1-4084-bb53-b36429dd0d4c"), true);
 		$summIco = $championInfo['image']['full'];
-		echo '<table><tr><td colspan="2" class=champ>'."<img class=champ src=http://ddragon.leagueoflegends.com/cdn/$version/img/champion/$summIco><br>".$championInfo['name'].'</td>'; //print champ
+		echo '<br><div class=infoContainer><table class=champ><tr><td colspan="2" class=champ>'."<img class=champ src=http://ddragon.leagueoflegends.com/cdn/$version/img/champion/$summIco><br>".$championInfo['name'].'</td>'; //print champ
 
 		//Get Rand 2 SS
 		$summonerList=json_decode(file_get_contents('https://global.api.pvp.net/api/lol/static-data/euw/v1.2/summoner-spell?spellData=modes&api_key=8b6d388b-22a1-4084-bb53-b36429dd0d4c'), true);
@@ -59,7 +59,8 @@
 		$ssArray=array_rand($summonerList['data'],2); //this array containts 2 random summoner spells,  we need to know which "ss" have been chosen to roll items with or without smite requirement
 
 		echo '</tr><tr>';
-
+		
+		
 		
 		//print summoners
 		$haveSmite = false;
@@ -70,6 +71,44 @@
 				$haveSmite = true;
 			}		
 		}
+		echo '</tr></table>';
+		
+		//random masteries generator
+		$randMast=[];
+		array_push($randMast,rand(0,18));
+		
+		if(30-$randMast[0] > 18)
+			array_push($randMast, 18);
+		else
+			array_push($randMast,30-$randMast[0]);
+		if(30-($randMast[1]+$randMast[0]) > 18)
+			array_push($randMast, 18);
+		else
+			array_push($randMast,30-($randMast[1]+$randMast[0]));
+		
+		shuffle($randMast);
+		echo '<div class=invisible>
+				<table class=masteries><tr><td colspan=3>Masteries</td></tr>
+				<tr>';
+				$colorMast["Red"] = $randMast[0];
+				$colorMast["Green"] = $randMast[1];
+				$colorMast["Blue"] = $randMast[2];
+		
+				foreach($colorMast as $key => $value)
+				{
+					echo "<td class=mastery$key>".$value."</td>";
+				}
+				echo '</tr></table>';
+		
+		$maxSpell = array('Q','W','E');
+		echo '
+			<table class=maxSpell><tr><td class=item>Bravery spell</td></tr>
+			<tr><td class=spell>';
+			echo $maxSpell[array_rand($maxSpell)];
+			echo '</td></tr></table>
+			</div>
+		
+		</div>';
 		//checkSmite
 
 		//ITEMS - MOST ENJOYABLE PART
@@ -144,8 +183,8 @@
 			$randomItemsArray=array_rand($itemsList,6);
 		
 		
-		echo '</tr></table>
-		<table>
+		echo '<div class=spacer></div>
+		<table class=items>
 		<td class=head>Item set</td>
 		<tr>';
 		$foundSmiteItem=false;
@@ -202,37 +241,14 @@
 				
 				echo '</td>';
 			}
+		echo '</tr></table>';
 			
-		//random masteries generator
-		$randMast=[];
-		$rerolledMast=[];
-		$randMast[0]=rand(0,18);
-		if(30-$randMast[0] > 18)
-			$randMast[1]=18;
-		else
-			$randMast[1]=30-$randMast[0];
-		if(30-($randMast[1]+$randMast[0]) > 18)
-			$randMast[2]=18;
-		else
-			$randMast[1]=30-($randMast[1]+$randMast[0]);
-		for($i=0; $i<2 ; $i++)
-		{
-			$rerolledMast[$i]=randMast[array_rand($randMast)];
-			array_diff($randMast,[ $rerolledMast[$i] ]);
-		}
 		
 		
-		echo '</tr>
-		</table><table>
-		<th>Masteries</th>
-		<tr>';
-		foreach($rerolledMast as $key)
-		{
-			echo "<td>".$rerolledMast[$key]."</td>";
-		}
-		echo '</tr>
-		</table>
-	<input class="button" type="submit" value="Randomize!">
+		//var_dump($colorMast);
+		
+		//var_dump($randMast);
+		echo '<input class="button" type="submit" value="Randomize!">
 	</form>';
 		echo "<div class=version>API Data Version: ".$version."</div>";
 	?>
