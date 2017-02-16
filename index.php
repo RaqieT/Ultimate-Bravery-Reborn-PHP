@@ -122,11 +122,7 @@
 		$bootsArray=[];
 		$smiteItems=[];
 		foreach ($itemsList as $key => $value) {
-			//only items without into items, fullbuild items
-			if(isset($value['into']))
-			{
-				unset($itemsList[$key]);
-			}
+			
 			//remove trinkets + lane items
 			foreach ($value['tags'] as $bkey => $bvalue) {
 				if($bvalue == 'Trinket')
@@ -139,6 +135,20 @@
 				}
 					
 			}
+			
+			//only items without into items, fullbuild items
+			
+			if(isset($value['into']))
+			{
+				if(!in_array($key,$bootsArray))
+					unset($itemsList[$key]);
+			}
+			//remove shitty items
+			if($value['gold']['total'] < 1000 && !in_array($key,$bootsArray))
+			{
+				unset($itemsList[$key]);
+			}
+			
 			//rqitems remove
 			if(isset($value['requiredChampion']))
 				unset($itemsList[$key]);
@@ -157,21 +167,7 @@
 			//quick charge item block, dunno why they're enabled on summoner's rift?!?
 			if(strpos($value['name'],'Quick Charge'))
 				unset($itemsList[$key]);
-			//make boots list
-/*
-			if(isset($value['from']))
-			{
-				foreach($value['from'] as $akey => $avalue) {
-					if($avalue == '1001') //if items is built from boots of speed
-					{
-						
-					//	var_dump($bootsArray);
-					//	unset($itemsList[$key]);
-					}
-				}
-			} */
 		}
-
 		//remember about good guy Viktor!
 		if($championInfo['name'] == 'Viktor')
 		{
@@ -213,7 +209,7 @@
 						break;
 				}
 		}
-		//var_dump($bootsFoundInBuild);
+		
 		$finalItems = $randomItemsArray;
 		//remove multiboots from set
 		while($bootsFoundInBuild)
