@@ -76,13 +76,16 @@
 		//random masteries generator
 		$randMast=[];
 		array_push($randMast,rand(0,18));
+
+		$minValue = 12 - $randMast[0];
+		if($minValue < 0)
+			$minValue = 0;
+
+		$maxValue = 30 - $randMast[0];
+		if($maxValue > 18)
+			$maxValue = 18;
 		
-		$mastSize1=rand(0,30-$randMast[0]);
-		
-		if($mastSize1 > 18)
-			$mastSize1=18;
-		
-		array_push($randMast, rand(0, $mastSize1));
+		array_push($randMast, rand($minValue, $maxValue));
 		
 		array_push($randMast,30-($randMast[1]+$randMast[0]));
 		
