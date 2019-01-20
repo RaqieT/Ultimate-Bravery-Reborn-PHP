@@ -1,4 +1,4 @@
-# Ultimate Bravery: Reborn [PHP 7.0]
+# Ultimate Bravery: Reborn [PHP 7.0] [DEPRACATED]
 
 #### Website: http://ub.rakie.tk
 
